@@ -21,7 +21,7 @@ def predict_datapoint():
         return render_template('home.html')
     else:
         # Collect all form inputs
-        data = Customdata(
+        data = CustomData(
             anxiety_level=request.form.get('anxiety_level'),
             self_esteem=request.form.get('self_esteem'),
             mental_health_history=request.form.get('mental_health_history'),
