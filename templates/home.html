@@ -1,0 +1,297 @@
+<html>
+    <head>
+        <title>Student Mental Health Predictor</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background: linear-gradient(to right, #ffecd2, #fcb69f);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .login {
+                background: white;
+                padding: 100px;
+                border-radius: 15px;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+                width: 500px;
+                text-align: center;
+                margin: 30px;
+            }
+
+            .login h1 {
+                color: #333;
+                font-size: 22px;
+                margin-bottom: 20px;
+            }
+
+            .mb-3 {
+                margin-bottom: 15px;
+                text-align: left;
+            }
+
+            label {
+                font-weight: bold;
+                display: block;
+                margin-bottom: 6px;
+                color: #444;
+            }
+
+            select, input[type="number"], .btn {
+                width: 100%;
+                padding: 10px;
+                border-radius: 8px;
+                border: 1px solid #ccc;
+                outline: none;
+                transition: 0.3s;
+                font-size: 14px;
+            }
+
+            select:focus, input[type="number"]:focus {
+                border-color: #ff6600;
+                box-shadow: 0 0 6px rgba(255,102,0,0.5);
+            }
+
+            .btn {
+                background: #ff6600;
+                color: white;
+                cursor: pointer;
+                border: none;
+                font-weight: bold;
+            }
+
+            .btn:hover {
+                background: #cc5200;
+            }
+
+            h2 {
+                margin-top: 20px;
+                color: #222;
+                font-size: 18px;
+                background: #f9f9f9;
+                padding: 12px;
+                border-radius: 10px;
+            }
+            .result-box {
+                margin-top: 20px;
+                padding: 20px;
+                border-radius: 12px;
+                background: #f9f9f9;
+                border: 2px solid #ff6600;
+                text-align: center;
+                font-size: 18px;
+                font-weight: bold;
+                color: #333;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            }
+
+            .result-box span {
+                color: #ff6600;
+                font-size: 20px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="login">
+        <h1>Student Mental Health Predictor</h1>
+    
+        <form action="{{ url_for('predict_datapoint')}}" method="post">
+            <h1>
+                <legend>Enter Student Lifestyle & Health Details</legend>
+            </h1>
+
+            <!-- Example numeric fields -->
+            <div class="mb-3">
+                <label>Anxiety Level (0-10)</label>
+                <input class="form-control" type="number" name="anxiety_level" min="0" max="10" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Self Esteem (0-10)</label>
+                <input class="form-control" type="number" name="self_esteem" min="0" max="10" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Mental Health History</label>
+                <select class="form-control" name="mental_health_history" required>
+                    <option selected disabled value="">Select Option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Depression</label>
+                <select class="form-control" name="depression" required>
+                    <option selected disabled value="">Select Option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Headache</label>
+                <select class="form-control" name="headache" required>
+                    <option selected disabled value="">Select Option</option>
+                    <option value="frequent">Frequent</option>
+                    <option value="sometimes">Sometimes</option>
+                    <option value="rarely">Rarely</option>
+                    <option value="never">Never</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Blood Pressure</label>
+                <select class="form-control" name="blood_pressure" required>
+                    <option selected disabled value="">Select Option</option>
+                    <option value="high">High</option>
+                    <option value="normal">Normal</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Sleep Quality (0-10)</label>
+                <input class="form-control" type="number" name="sleep_quality" min="0" max="10" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Breathing Problem</label>
+                <select class="form-control" name="breathing_problem" required>
+                    <option selected disabled value="">Select Option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Noise Level</label>
+                <select class="form-control" name="noise_level" required>
+                    <option selected disabled value="">Select Option</option>
+                    <option value="high">High</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Living Conditions</label>
+                <select class="form-control" name="living_conditions" required>
+                    <option selected disabled value="">Select Option</option>
+                    <option value="poor">Poor</option>
+                    <option value="average">Average</option>
+                    <option value="good">Good</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Safety</label>
+                <select class="form-control" name="safety" required>
+                    <option selected disabled value="">Select Option</option>
+                    <option value="unsafe">Unsafe</option>
+                    <option value="average">Average</option>
+                    <option value="safe">Safe</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Basic Needs</label>
+                <select class="form-control" name="basic_needs" required>
+                    <option selected disabled value="">Select Option</option>
+                    <option value="not_met">Not Met</option>
+                    <option value="partially_met">Partially Met</option>
+                    <option value="met">Met</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Academic Performance (0-10)</label>
+                <input class="form-control" type="number" name="academic_performance" min="0" max="10" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Study Load</label>
+                <select class="form-control" name="study_load" required>
+                    <option selected disabled value="">Select Option</option>
+                    <option value="light">Light</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="heavy">Heavy</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Teacher-Student Relationship</label>
+                <select class="form-control" name="teacher_student_relationship" required>
+                    <option selected disabled value="">Select Option</option>
+                    <option value="poor">Poor</option>
+                    <option value="average">Average</option>
+                    <option value="good">Good</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Future Career Concerns</label>
+                <select class="form-control" name="future_career_concerns" required>
+                    <option selected disabled value="">Select Option</option>
+                    <option value="high">High</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Social Support</label>
+                <select class="form-control" name="social_support" required>
+                    <option selected disabled value="">Select Option</option>
+                    <option value="low">Low</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="strong">Strong</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Peer Pressure</label>
+                <select class="form-control" name="peer_pressure" required>
+                    <option selected disabled value="">Select Option</option>
+                    <option value="high">High</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Extracurricular Activities</label>
+                <select class="form-control" name="extracurricular_activities" required>
+                    <option selected disabled value="">Select Option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Bullying</label>
+                <select class="form-control" name="bullying" required>
+                    <option selected disabled value="">Select Option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <input class="btn" type="submit" value="Predict Mental Health Status" />
+            </div>
+        </form>
+
+        {% if results %}
+        <div class="result-box">
+            Prediction Result: <span>{{ results }}</span>
+        </div>
+        {% endif %}
+
+    </div>
+    </body>
+</html>
