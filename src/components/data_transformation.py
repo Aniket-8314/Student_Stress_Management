@@ -6,7 +6,8 @@ import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder,StandardScaler
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder
 
 from src.exception import CustomException
 from src.logger import logging
@@ -38,27 +39,24 @@ class DataTransformation:
             
             input_feature_test_df=test_df.drop(columns=[target_column_name],axis=1)
             target_feature_test_df=test_df[target_column_name]
+            
 
             logging.info(
                 f"Applying preprocessing object on training and testing dataframe"
             )
             
-            scaler = OneHotEncoder()
-            train_arr=scaler.fit_transform(input_feature_train_df)
-            test_arr=scaler.transform(input_feature_test_df)
-
+            preprocessor=StandardScaler()
+            train_arr = preprocessor.fit_transform(input_feature_train_df)
+            test_arr = preprocessor.transform(input_feature_test_df)
+            
 
             logging.info(
                 f"Applying preprocessing object on training and testing dataframe"
             )
-            
-            scaler = StandardScaler()
-            train_arr=scaler.fit_transform(train_df)
-            test_arr=scaler.transform(test_df)
             
             save_object(
                 file_path=self.data_transformation_config.preprocessor_obj_file_path,
-                obj=scaler
+                obj=preprocessor
             )
             
             return(

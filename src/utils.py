@@ -58,3 +58,10 @@ def load_object(file_path):
         
     except Exception as e:
         raise CustomException(e,sys)
+    
+def encode_value(value):
+    if value.lower() in ["yes", "y", "1"]:
+        return 1
+    elif value.lower() in ["no", "n", "0"]:
+        return 0
+    return float(value)  # for numeric fields
