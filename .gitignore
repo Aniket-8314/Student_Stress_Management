@@ -205,3 +205,22 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Ensure consistent line endings for text files
+* text=auto eol=lf
+
+# CSV files should always use LF (avoids CRLF warning)
+*.csv text eol=lf
+
+# Notebooks and code should also use LF
+*.ipynb text eol=lf
+*.py text eol=lf
+
+# Binary files (don’t touch line endings)
+*.pkl binary
+*.joblib binary
+*.h5 binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary

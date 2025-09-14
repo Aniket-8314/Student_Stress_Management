@@ -46,9 +46,18 @@ class DataTransformation:
             )
             
             preprocessor=StandardScaler()
-            train_arr = preprocessor.fit_transform(input_feature_train_df)
-            test_arr = preprocessor.transform(input_feature_test_df)
+            train_features = preprocessor.fit_transform(input_feature_train_df)
+            test_features = preprocessor.transform(input_feature_test_df)
+
+            # ✅ Add target back
+            train_arr = np.c_[train_features, np.array(target_feature_train_df)]
+            test_arr = np.c_[test_features, np.array(target_feature_test_df)]
+            # train_arr = preprocessor.fit_transform(input_feature_train_df)
+            # test_arr = preprocessor.transform(input_feature_test_df)
             
+            print("Preprocessor learned features:", preprocessor.feature_names_in_)
+            print("Count:", len(preprocessor.feature_names_in_))           
+
 
             logging.info(
                 f"Applying preprocessing object on training and testing dataframe"
