@@ -6,8 +6,11 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from src.pipeline.predict_pipeline import CustomData,PredictPipeline
 
+from flask import Flask, request, render_template, redirect, url_for, session
+import logging
 
 app = Flask(__name__)
+app.secret_key = "supersecretkey"  # required for session
 
 ## route for homepage
 @app.route('/')
@@ -19,7 +22,10 @@ def index():
 def predict_datapoint():
     try:
         if request.method == 'GET':
-            return render_template('home.html')
+            # Only show result if it exists in session
+            results = session.pop("results", None)  
+            return render_template('home.html', results=results)
+            # return render_template('home.html')
         else:
             # Collect all form inputs
             data = CustomData(
@@ -61,12 +67,18 @@ def predict_datapoint():
             logging.info(results)
             if results<0.66:
                 output="low"
-            elif results<1.32:
+            elif 0.66<results<1.32:
                 output="Moderate"
             else :
                 output="High"
                 
-            return render_template('home.html', results=output)
+            # store result in session temporarily
+            session["results"] = output
+
+            # Redirect so refresh doesn’t re-post
+            return redirect(url_for("predict_datapoint"))
+                
+            # return render_template('home.html', results=output)
 
     except Exception as e:
         logging.info(f"Error during prediction: {e}")
