@@ -1,6 +1,72 @@
-<h1>Welcome to the home page</h1>
-<p>This is index.html</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Stress Management</title>
+  <style>
+    /* Reset some default styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-<form action="/predictdata" method="get">
-  <button type="submit">Go to Prediction</button>
-</form>
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      color: #fff;
+    }
+
+    .container {
+      text-align: center;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+      max-width: 500px;
+    }
+
+    .container h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .container p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #4facfe;
+      background-color: #fff;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .btn:hover {
+      background-color: #e6f0ff;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to Student Stress Management</h1>
+    <p>Your mental well-being matters. Use our tool to check your stress level.</p>
+
+    <form action="/predictdata">
+      <button type="submit" class="btn">Go to Prediction</button>
+    </form>
+  </div>
+</body>
+</html>
