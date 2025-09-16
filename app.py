@@ -7,8 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from src.pipeline.predict_pipeline import CustomData,PredictPipeline
 
 
-application = Flask(__name__)
-app = application
+app = Flask(__name__)
 
 ## route for homepage
 @app.route('/')
@@ -59,6 +58,7 @@ def predict_datapoint():
 
             # Return prediction result
             print(results)
+            logging.info(results)
             if results<0.66:
                 output="low"
             elif results<1.32:
@@ -73,4 +73,5 @@ def predict_datapoint():
         return render_template('home.html', results="Error: Invalid input")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    app.run(debug=True)
+    # app.run(host="0.0.0.0", debug=True)
