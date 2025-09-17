@@ -4,7 +4,7 @@
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #f9d29d, #ee7f5b);
+            background: radial-gradient(circle at center, #89f7fe, #66d1ff, #66b3ff, #6670ff);
             margin: 0;
             display: flex;
             justify-content: center;
@@ -13,29 +13,39 @@
             padding: 30px;
         }
 
+        /* Glassmorphism Container */
         .container {
-            background: #fff;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
             border-radius: 18px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
             width: 550px;
             max-width: 95%;
-            padding: 25px 35px;
+            padding: 30px 40px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.3);
         }
 
         h1 {
             text-align: center;
             font-size: 26px;
-            color: #333;
-            margin-bottom: 15px;
+            font-weight: 600;
+            color: #1a1a40;
+            margin-bottom: 20px;
         }
 
+        /* Form Steps */
         .step {
             display: none;
         }
-
         .step.active {
             display: block;
-            animation: fadeIn 0.5s ease-in-out;
+            animation: fadeIn 0.4s ease-in-out;
         }
 
         .mb-3 {
@@ -46,58 +56,87 @@
             font-weight: bold;
             display: block;
             margin-bottom: 6px;
-            color: #444;
+            color: #1f1f4d;
+            font-size: 14px;
         }
 
-        select, input[type="number"], input[type="range"] {
+        /* Inputs + Select */
+        select, input[type="range"] {
             width: 100%;
-            padding: 10px;
             border-radius: 10px;
-            border: 1px solid #ccc;
             font-size: 14px;
             transition: 0.3s;
         }
 
+        /* Range Slider */
         input[type="range"] {
+            -webkit-appearance: none;
+            height: 6px;
+            border-radius: 5px;
+            background: linear-gradient(to right, #66d1ff, #6670ff);
+            outline: none;
+            margin-top: 6px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border: 2px solid #6670ff;
+            border-radius: 50%;
             cursor: pointer;
+            transition: background 0.3s, border 0.3s;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #6670ff;
+            border: 2px solid #fff;
         }
 
+        /* Select */
+        select {
+            padding: 10px;
+            border: 1px solid rgba(102, 112, 255, 0.5);
+            background: rgba(255, 255, 255, 0.6);
+        }
         select:focus, input:focus {
-            border-color: #ff6600;
-            box-shadow: 0 0 6px rgba(255,102,0,0.5);
+            border-color: #6670ff;
+            box-shadow: 0 0 6px rgba(102, 112, 255, 0.5);
         }
 
+        /* Buttons */
         .btn {
-            background: #ff6600;
+            background: linear-gradient(135deg, #66d1ff, #6670ff);
             color: #fff;
             border: none;
             border-radius: 10px;
-            padding: 12px 20px;
+            padding: 12px 22px;
             cursor: pointer;
             font-weight: bold;
             margin: 8px 5px;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
-
         .btn:hover {
-            background: #cc5200;
+            background: linear-gradient(135deg, #4fb5ff, #4a4aff);
+            transform: scale(1.05);
         }
 
+        /* Progress Bar */
         .progress-bar {
             height: 10px;
-            background: #eee;
+            background: rgba(255,255,255,0.4);
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             overflow: hidden;
         }
-
         .progress {
             height: 10px;
             width: 0;
-            background: #ff6600;
+            background: linear-gradient(90deg, #66d1ff, #6670ff);
             transition: width 0.4s ease;
         }
 
+        /* Result Box (keep distinct) */
         .result-box {
             margin-top: 20px;
             padding: 20px;
@@ -106,15 +145,15 @@
             font-size: 18px;
             font-weight: bold;
         }
-
         .low { background: #d4edda; color: #155724; border: 2px solid #28a745; }
         .medium { background: #fff3cd; color: #856404; border: 2px solid #ffc107; }
         .high { background: #f8d7da; color: #721c24; border: 2px solid #dc3545; }
 
         @keyframes fadeIn {
-            from {opacity: 0;}
-            to {opacity: 1;}
+            from {opacity: 0; transform: translateY(10px);}
+            to {opacity: 1; transform: translateY(0);}
         }
+
     </style>
 </head>
 <body>
@@ -183,7 +222,8 @@
         <div class="step">
             <div class="mb-3">
                 <label>Sleep Quality (0-5)</label>
-                <input class="form-control" type="number" name="sleep_quality" min="0" max="5" required>
+                <input class="form-control" type="range" name="sleep_quality" min="0" max="5" value="3" required oninput="this.nextElementSibling.value = this.value">
+                <output>3</output>
             </div>
 
             <div class="mb-3">
@@ -197,46 +237,54 @@
 
             <div class="mb-3">
                 <label>Noise Level(0-5)</label>
-                <input class="form-control" type="number" name="noise_level" min="0" max="5" required>
+                <input class="form-control" type="range" name="noise_level" min="0" max="5" value="3" required oninput="this.nextElementSibling.value = this.value">
+                <output>3</output>
             </div>
             
             <div class="mb-3">
                 <label>Living Conditions(0-5)</label>
-                <input class="form-control" type="number" name="living_conditions" min="0" max="5" required>
+                <input class="form-control" type="range" name="living_conditions" min="0" max="5" value="3" required oninput="this.nextElementSibling.value = this.value">
+                <output>3</output>
             </div>
         </div>
 
         <div class="step">
             <div class="mb-3">
                 <label>Safety(0-5)</label>
-                <input class="form-control" type="number" name="safety" min="0" max="5" required>
+                <input class="form-control" type="range" name="safety" min="0" max="5" value="3" required oninput="this.nextElementSibling.value = this.value">
+                <output>3</output>
             </div>
 
             <div class="mb-3">
                 <label>Basic Needs(0-5)</label>
-                <input class="form-control" type="number" name="basic_needs" min="0" max="5" required>
+                <input class="form-control" type="range" name="basic_needs" min="0" max="5" value="3" required oninput="this.nextElementSibling.value = this.value">
+                <output>3</output>
             </div>
 
             <div class="mb-3">
                 <label>Academic Performance (0-5)</label>
-                <input class="form-control" type="number" name="academic_performance" min="0" max="5" required>
+                <input class="form-control" type="range" name="academic_performance" min="0" max="5" value="3" required oninput="this.nextElementSibling.value = this.value">
+                <output>3</output>
             </div>
 
             <div class="mb-3">
                 <label>Study Load(0-5)</label>
-                <input class="form-control" type="number" name="study_load" min="0" max="5" required>
+                <input class="form-control" type="range" name="study_load" min="0" max="5" value="3" required oninput="this.nextElementSibling.value = this.value">
+                <output>3</output>
             </div>
         </div>
 
         <div class="step">
             <div class="mb-3">
                 <label>Teacher-Student Relationship(0-5)</label>
-                <input class="form-control" type="number" name="teacher_student_relationship" min="0" max="5" required>
+                <input class="form-control" type="range" name="teacher_student_relationship" min="0" max="5" value="3" required oninput="this.nextElementSibling.value = this.value">
+                <output>3</output>
             </div>
 
             <div class="mb-3">
                 <label>Future Career Concerns(0-5)</label>
-                <input class="form-control" type="number" name="future_career_concerns" min="0" max="5" required>
+                <input class="form-control" type="range" name="future_career_concerns" min="0" max="5" value="3" required oninput="this.nextElementSibling.value = this.value">
+                <output>3</output>
             </div>
 
             <div class="mb-3">
@@ -254,20 +302,22 @@
         <div class="step">
             <div class="mb-3">
                 <label>Peer Pressure(0-5)</label>
-                <input class="form-control" type="number" name="peer_pressure" min="0" max="5" required>
+                <input class="form-control" type="range" name="peer_pressure" min="0" max="5" value="3" required oninput="this.nextElementSibling.value = this.value">
+                <output>3</output>
             </div>
 
             <div class="mb-3">
                 <label>Extracurricular Activities(0-5)</label>
-                <input class="form-control" type="number" name="extracurricular_activities" min="0" max="5" required>
+                <input class="form-control" type="range" name="extracurricular_activities" min="0" max="5" value="3" required oninput="this.nextElementSibling.value = this.value">
+                <output>3</output>
             </div>
 
             <div class="mb-3">
                 <label>Bullying(0-5)</label>
-                <input class="form-control" type="number" name="bullying" min="0" max="5" required>
+                <input class="form-control" type="range" name="bullying" min="0" max="5" value="3" required oninput="this.nextElementSibling.value = this.value">
+                <output>3</output>
             </div>
         </div>
-        <!-- Add more grouped steps (Sleep, Lifestyle, Academic, Social, etc.) -->
 
         <div class="buttons">
             <button type="button" class="btn" onclick="prevStep()">Previous</button>
